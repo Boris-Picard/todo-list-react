@@ -1,6 +1,6 @@
-import { List } from "./components/todo/List";
 import { AddTask } from "./components/form/AddTask";
 import './assets/styles/body.css'
+import { List } from "./components/todo/List";
 
 function App() {
 

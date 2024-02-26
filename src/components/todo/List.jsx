@@ -1,7 +1,8 @@
+
 export function List() {
-    return (
-        <ul>
-            <li>un</li>
-        </ul>
-    )
+    return <ul className="text-white">
+        <li>
+
+        </li>
+    </ul>
 }
