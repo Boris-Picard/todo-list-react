@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export function AddTask() {
+export function AddTask({onAddTask}) {
 
     const [list, setList] = useState("")
 
@@ -10,7 +10,8 @@ export function AddTask() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (SubmitEvent) {
+        if (list) {
+            onAddTask(list)
             setList("")
         }
     }
