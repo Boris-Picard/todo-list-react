@@ -7,7 +7,12 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   const addTask = (task) => {
-    setTasks([...tasks, task])
+    const newTask = { id: Date.now(), text: task };
+    setTasks([...tasks, newTask])
+  }
+
+  const deleteTasks = (taskId) => {
+    setTasks(tasks.filter(task => task.id !== taskId))
   }
 
   return (
@@ -22,8 +27,19 @@ function App() {
           </div>
           <div className="col-12 my-5">
             <ul className="text-white">
-              {tasks.map((task, i) =>
-                <li className="text-white" key={i}>{task}</li>
+              {tasks.map((task) =>
+                <li
+                  className="text-white my-3"
+                  id={task.id}
+                  key={task.id}>
+                  {task.text}
+                  <button
+                    className="mx-2 btn btn-sm btn-danger"
+                    id={task.id}
+                    onClick={() => deleteTasks(task.id)}>
+                    x
+                  </button>
+                </li>
               )}
             </ul>
           </div>
