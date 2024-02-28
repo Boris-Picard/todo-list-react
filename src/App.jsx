@@ -1,6 +1,7 @@
 import './assets/styles/body.css'
 import { AddTask } from "./components/form/AddTask";
 import { useState } from "react";
+import { Categories } from './components/form/Categories';
 
 function App() {
 
@@ -28,6 +29,10 @@ function App() {
     setTasks(updatedTasks)
   }
 
+  const filterTasks = (e) => {
+    console.log(tasks);
+  }
+
   return (
     <section>
       <div className="container my-5">
@@ -41,28 +46,33 @@ function App() {
             </div>
           </div>
           <div className="row">
-            <div className="col-12 my-5">
-              <ul className="text-white fw-bold">
-                {tasks.map((task) =>
-                  <li
-                    className={task.isDone ? 'text-success' : null}
-                    id={task.id}
-                    key={task.id}
-                    onClick={() => handleClick(task.id)}
-                  >
+            <div className="col-12">
+              <Categories onClick={filterTasks}/>
+            </div>
+          </div>
+          <div className="row justify-content-center">
+            <div className="col-8 my-5">
+              {tasks.map((task) =>
+                <div
+                  className={`hstack mb-3 card bg-light ${task.isDone ? 'text-decoration-line-through' : null}`}
+                  id={task.id}
+                  key={task.id}
+                  onClick={() => handleClick(task.id)}
+                >
+                  <div className="card-body fw-bold">
                     {task.text}
-                    <button
-                      className="mx-2 btn btn-sm btn-danger"
-                      id={task.id}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteTasks(task.id)
-                      }}>
-                      x
-                    </button>
-                  </li>
-                )}
-              </ul>
+                  </div>
+                  <button
+                    className="mx-2 btn btn-sm btn-danger"
+                    id={task.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteTasks(task.id)
+                    }}>
+                    Supprimer la tâche
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
