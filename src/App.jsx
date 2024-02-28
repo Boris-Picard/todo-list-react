@@ -29,9 +29,7 @@ function App() {
     setTasks(updatedTasks)
   }
 
-  const filterTasks = (e) => {
-    console.log(tasks);
-  }
+
 
   return (
     <section>
@@ -47,7 +45,7 @@ function App() {
           </div>
           <div className="row">
             <div className="col-12">
-              <Categories onClick={filterTasks}/>
+              <Categories data={addTask} />
             </div>
           </div>
           <div className="row justify-content-center">
