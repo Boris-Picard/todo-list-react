@@ -29,6 +29,10 @@ function App() {
     setTasks(updatedTasks)
   }
 
+  const getValue = (e) => {
+    e.target.value
+  }
+
 
 
   return (
@@ -39,13 +43,13 @@ function App() {
             <h1 className="text-white">Ma Todo List</h1>
           </div>
           <div className="row justify-content-center">
-            <div className="col-5">
+            <div className="col-6">
               <AddTask onAddTask={addTask} />
             </div>
           </div>
           <div className="row">
             <div className="col-12">
-              <Categories data={addTask} />
+              <Categories value={getValue} onClick={getValue} />
             </div>
           </div>
           <div className="row justify-content-center">
