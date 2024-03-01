@@ -1,11 +1,11 @@
 import './assets/styles/body.css'
 import { AddTask } from "./components/form/AddTask";
 import { useState } from "react";
-import { Categories } from './components/form/Categories';
 
 function App() {
 
   const [tasks, setTasks] = useState([]);
+  const [filteredTask, setFilteredTask] = useState("All")
 
   const addTask = (task) => {
     const newTask = { id: Date.now(), text: task, isDone: false };
@@ -30,11 +30,24 @@ function App() {
   }
 
   const getValue = (e) => {
-    e.target.value
+    setFilteredTask(e.target.value)
   }
-
-
-
+  
+  const filterTask = () => {
+    const newFilteredTasks = setTasks([...tasks])
+    console.log(tasks);
+    switch (filteredTask) {
+      case "All":
+        return newFilteredTasks
+      case "Active":
+        return newFilteredTasks.filter((task) => task.isDone === false)
+      case "Completed":
+        return newFilteredTasks.filter((task) => task.isDone === true)
+      default:
+        break;
+    }
+  }
+  
   return (
     <section>
       <div className="container my-5">
@@ -47,9 +60,26 @@ function App() {
               <AddTask onAddTask={addTask} />
             </div>
           </div>
-          <div className="row">
+          <div className="row text-center mt-5">
             <div className="col-12">
-              <Categories value={getValue} onClick={getValue} />
+              <button
+                className="btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2"
+                onClick={getValue}
+                value="All">
+                Toutes les tâches
+              </button>
+              <button
+                className="btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2"
+                onClick={getValue}
+                value="Active">
+                Tâches actives(non complétées)
+              </button>
+              <button
+                className="btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2"
+                onClick={getValue}
+                value="Completed">
+                Tâches complétées
+              </button>
             </div>
           </div>
           <div className="row justify-content-center">
@@ -59,6 +89,7 @@ function App() {
                   className={`hstack mb-3 card bg-light ${task.isDone ? 'text-decoration-line-through' : null}`}
                   id={task.id}
                   key={task.id}
+                  onChange={filterTask}
                   onClick={() => handleClick(task.id)}
                 >
                   <div className="card-body fw-bold">
