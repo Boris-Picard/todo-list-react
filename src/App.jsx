@@ -5,6 +5,7 @@ import { useState } from "react";
 function App() {
   const [tasks, setTasks] = useState([]);
   const [filteredTask, setFilteredTask] = useState("All");
+  // const [isActive, setIsActive] = useState(null);
 
   const addTask = (task) => {
     const newTask = { id: Date.now(), text: task, isDone: false };
