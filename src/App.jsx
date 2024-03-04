@@ -46,6 +46,11 @@ function App() {
     }
   };
 
+  const handleModify = (task) => {
+    {
+      return { task };
+    }
+  };
   return (
     <section>
       <div className="container my-5">
@@ -96,6 +101,15 @@ function App() {
                 >
                   <div className="card-body fw-bold">{task.text}</div>
                   <button
+                    className="btn btn-sm btn-dark"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleModify(task.text);
+                    }}
+                  >
+                    <i className="bi bi-pencil-square"></i>
+                  </button>
+                  <button
                     className="mx-2 btn btn-sm btn-danger"
                     id={task.id}
                     onClick={(e) => {
@@ -103,7 +117,7 @@ function App() {
                       deleteTasks(task.id);
                     }}
                   >
-                    Supprimer la tâche
+                    <i className="bi bi-trash-fill mx-2"></i>
                   </button>
                 </div>
               ))}
