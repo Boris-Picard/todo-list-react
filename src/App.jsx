@@ -1,11 +1,13 @@
 import "./assets/styles/body.css";
 import { AddTask } from "./components/form/AddTask";
 import { useState } from "react";
+import { ModifyTask } from "./components/form/ModifyTask";
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [filteredTask, setFilteredTask] = useState("All");
-  // const [isActive, setIsActive] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentTodo, setCurrentTodo] = useState([]);
 
   const addTask = (task) => {
     const newTask = { id: Date.now(), text: task, isDone: false };
@@ -46,10 +48,15 @@ function App() {
     }
   };
 
-  const handleModify = (task) => {
+  const handleModify = () => {
     {
-      return { task };
+      setIsEditing(true);
     }
+  };
+
+  const modifyTodo = (task) => {
+    setCurrentTodo({ ...task, text: task.text });
+    console.log(currentTodo);
   };
   return (
     <section>
@@ -100,15 +107,24 @@ function App() {
                   onClick={() => handleClick(task.id)}
                 >
                   <div className="card-body fw-bold">{task.text}</div>
-                  <button
-                    className="btn btn-sm btn-dark"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleModify(task.text);
-                    }}
-                  >
-                    <i className="bi bi-pencil-square"></i>
-                  </button>
+                  {isEditing ? (
+                    <ModifyTask
+                      onModifyTask={modifyTodo}
+                      value={task.text}
+                      onAddTask={addTask}
+                      onClick={(e) => e.stopPropagation}
+                    />
+                  ) : (
+                    <button
+                      className="btn btn-sm btn-dark"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleModify();
+                      }}
+                    >
+                      <i className="bi bi-pencil-square"></i>
+                    </button>
+                  )}
                   <button
                     className="mx-2 btn btn-sm btn-danger"
                     id={task.id}
