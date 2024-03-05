@@ -1,28 +1,16 @@
-import { useState } from "react";
-
-export function ModifyTask({ onModifyTask }) {
-  const [currentTodo, setCurrentTodo] = useState([]);
-
-  const handleModify = (e) => {
-    setCurrentTodo(e.target.value);
-  };
-
-  const handleModifySubmit = (e) => {
-    e.preventDefault();
-    // if (currentTodo) {
-    onModifyTask(currentTodo);
-    //   setCurrentTodo("");
-    // }
-  };
-
+export default function ModifyTask({
+  handleModifySubmit,
+  currentTodo,
+  modifyTodo,
+}) {
   return (
     <form onSubmit={handleModifySubmit}>
       <input
         className="form-control"
         type="text"
         value={currentTodo}
-        placeholder={currentTodo.text}
-        onChange={handleModify}
+        placeholder={currentTodo}
+        onChange={modifyTodo}
       />
     </form>
   );

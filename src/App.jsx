@@ -1,7 +1,7 @@
 import "./assets/styles/body.css";
 import { AddTask } from "./components/form/AddTask";
 import { useState } from "react";
-import { ModifyTask } from "./components/form/ModifyTask";
+import ModifyTask from "./components/form/ModifyTask";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -48,6 +48,11 @@ function App() {
     }
   };
 
+  const handleModifySubmit = (e) => {
+    e.preventDefault();
+    setCurrentTodo([...tasks, { text: e.target.value }]);
+  };
+
   const handleModify = () => {
     {
       setIsEditing(true);
@@ -57,9 +62,7 @@ function App() {
   const modifyTodo = (e) => {
     console.log(e.target.value);
     const modifyTask = tasks.map((task) => {
-      if (task.id === id) {
-        return { ...task, text: e.target.value };
-      }
+      return { ...task, text: e.target.value };
     });
     console.log(modifyTask);
     return setCurrentTodo(modifyTask);
@@ -115,9 +118,9 @@ function App() {
                   <div className="card-body fw-bold">{task.text}</div>
                   {isEditing ? (
                     <ModifyTask
-                      value={task.text}
-                      onModifyTask={modifyTodo}
-                      onClick={(e) => e.stopPropagation}
+                      handleModifySubmit={handleModifySubmit}
+                      currentTodo={task.text}
+                      modifyTodo={modifyTodo}
                     />
                   ) : (
                     <button
