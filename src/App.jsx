@@ -54,9 +54,15 @@ function App() {
     }
   };
 
-  const modifyTodo = (task) => {
-    setCurrentTodo({ ...task, text: task.text });
-    console.log(currentTodo);
+  const modifyTodo = (e) => {
+    console.log(e.target.value);
+    const modifyTask = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, text: e.target.value };
+      }
+    });
+    console.log(modifyTask);
+    return setCurrentTodo(modifyTask);
   };
   return (
     <section>
@@ -109,9 +115,8 @@ function App() {
                   <div className="card-body fw-bold">{task.text}</div>
                   {isEditing ? (
                     <ModifyTask
-                      onModifyTask={modifyTodo}
                       value={task.text}
-                      onAddTask={addTask}
+                      onModifyTask={modifyTodo}
                       onClick={(e) => e.stopPropagation}
                     />
                   ) : (
