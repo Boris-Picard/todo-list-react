@@ -50,7 +50,6 @@ function App() {
 
   const handleModifySubmit = (e) => {
     e.preventDefault();
-    setCurrentTodo([...tasks, { text: e.target.value }]);
   };
 
   const handleModify = () => {
@@ -60,7 +59,7 @@ function App() {
   };
 
   const modifyTodo = (e) => {
-    console.log(e.target.value);
+    setCurrentTodo(e.target.value);
     const modifyTask = tasks.map((task) => {
       return { ...task, text: e.target.value };
     });
@@ -121,6 +120,7 @@ function App() {
                       handleModifySubmit={handleModifySubmit}
                       currentTodo={task.text}
                       modifyTodo={modifyTodo}
+                      value={currentTodo}
                     />
                   ) : (
                     <button
