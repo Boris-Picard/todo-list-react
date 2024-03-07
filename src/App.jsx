@@ -28,7 +28,8 @@ function App() {
   }, [tasks]);
 
   const deleteTasks = (taskId) => {
-    const updatedTasks = setTasks(tasks.filter((task) => task.id !== taskId));
+    const updatedTasks = tasks.filter((task) => task.id !== taskId);
+    setTasks(updatedTasks);
     localStorage.setItem("ToDo", JSON.stringify(updatedTasks));
   };
 
