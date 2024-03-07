@@ -6,7 +6,8 @@ import ModifyTask from "./components/form/ModifyTask";
 function App() {
   const [tasks, setTasks] = useState([]);
   const [filteredTask, setFilteredTask] = useState("All");
-  const [isEditing, setIsEditing] = useState(false);
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [activeFilter, setActiveFilter] = useState("All");
 
   const addTask = (task) => {
     const newTask = { id: Date.now(), text: task, isDone: false };
@@ -17,7 +18,10 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== taskId));
   };
 
-  const handleClick = (id) => {
+  const handleClick = (id, e) => {
+    if (e.target.tagName.toLowerCase() === "input") {
+      return;
+    }
     const updatedTasks = tasks.map((task) => {
       if (task.id === id) {
         if (task.isDone === true) {
@@ -32,6 +36,11 @@ function App() {
 
   const getValue = (e) => {
     setFilteredTask(e.target.value);
+    setActiveFilter(e.target.value);
+  };
+
+  const isFilterActive = (filter) => {
+    return activeFilter === filter ? "bg-success" : "";
   };
 
   const filterTask = (tasks) => {
@@ -49,21 +58,19 @@ function App() {
 
   const handleModify = (id) => {
     {
-      const modifyTaskClick = tasks.map((task) => {
-        if (task.id === id) {
-          setIsEditing(true);
-        }
-      });
-      return modifyTaskClick;
+      setEditingTaskId(id);
     }
   };
 
-  const modifyTodo = (e, id) => {
+  const handFinishEditing = () => {
+    setEditingTaskId(null);
+  };
+
+  const modifyTodo = (id, newValue) => {
     const modifyTask = tasks.map((task) => {
       if (task.id === id) {
-        return task;
+        return { ...task, text: newValue };
       }
-      console.log(task);
       return task;
     });
     return setTasks(modifyTask);
@@ -83,21 +90,27 @@ function App() {
           <div className="row text-center mt-5">
             <div className="col-12">
               <button
-                className="btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2"
+                className={`btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2 ${isFilterActive(
+                  "All"
+                )}`}
                 onClick={getValue}
                 value="All"
               >
                 Toutes les tâches
               </button>
               <button
-                className="btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2"
+                className={`btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2 ${isFilterActive(
+                  "Active"
+                )}`}
                 onClick={getValue}
                 value="Active"
               >
                 Tâches actives(non complétées)
               </button>
               <button
-                className="btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2"
+                className={`btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2 ${isFilterActive(
+                  "Completed"
+                )}`}
                 onClick={getValue}
                 value="Completed"
               >
@@ -114,15 +127,17 @@ function App() {
                   }`}
                   id={task.id}
                   key={task.id}
-                  onClick={() => handleClick(task.id)}
+                  onClick={(e) => handleClick(task.id, e)}
                 >
                   <div className="card-body fw-bold">{task.text}</div>
-                  {isEditing ? (
+                  {editingTaskId === task.id ? (
                     <ModifyTask
                       key={task.id}
                       id={task.id}
-                      onModifyTodo={() => modifyTodo(task.id)}
-                      value={task}
+                      onModifyTodo={(newValue) => {
+                        modifyTodo(task.id, newValue);
+                        handFinishEditing();
+                      }}
                     />
                   ) : (
                     <button

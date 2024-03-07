@@ -9,8 +9,8 @@ export default function ModifyTask({ onModifyTodo, id }) {
 
   const handleModifySubmit = (e) => {
     e.preventDefault();
-    if (setModifyTodoValue) {
-      onModifyTodo(setModifyTodoValue);
+    if (modifyTodoValue.trim()) {
+      onModifyTodo(modifyTodoValue, id);
       setModifyTodoValue("");
     }
   };
