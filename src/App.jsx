@@ -1,6 +1,6 @@
 import "./assets/styles/body.css";
 import { AddTask } from "./components/form/AddTask";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModifyTask from "./components/form/ModifyTask";
 
 function App() {
@@ -9,13 +9,27 @@ function App() {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [activeFilter, setActiveFilter] = useState("All");
 
+  useEffect(() => {
+    const tasks = JSON.parse(localStorage.getItem("ToDo"));
+    if (tasks) {
+      setTasks(tasks);
+    }
+  }, []);
+
   const addTask = (task) => {
     const newTask = { id: Date.now(), text: task, isDone: false };
     setTasks([...tasks, newTask]);
   };
 
+  useEffect(() => {
+    if (tasks.length > 0) {
+      localStorage.setItem("ToDo", JSON.stringify(tasks));
+    }
+  }, [tasks]);
+
   const deleteTasks = (taskId) => {
-    setTasks(tasks.filter((task) => task.id !== taskId));
+    const updatedTasks = setTasks(tasks.filter((task) => task.id !== taskId));
+    localStorage.setItem("ToDo", JSON.stringify(updatedTasks));
   };
 
   const handleClick = (id, e) => {
