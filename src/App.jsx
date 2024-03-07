@@ -7,7 +7,6 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [filteredTask, setFilteredTask] = useState("All");
   const [isEditing, setIsEditing] = useState(false);
-  const [currentTodo, setCurrentTodo] = useState([]);
 
   const addTask = (task) => {
     const newTask = { id: Date.now(), text: task, isDone: false };
@@ -48,23 +47,26 @@ function App() {
     }
   };
 
-  const handleModifySubmit = (e) => {
-    e.preventDefault();
-  };
-
-  const handleModify = () => {
+  const handleModify = (id) => {
     {
-      setIsEditing(true);
+      const modifyTaskClick = tasks.map((task) => {
+        if (task.id === id) {
+          setIsEditing(true);
+        }
+      });
+      return modifyTaskClick;
     }
   };
 
-  const modifyTodo = (e) => {
-    setCurrentTodo(e.target.value);
+  const modifyTodo = (e, id) => {
     const modifyTask = tasks.map((task) => {
-      return { ...task, text: e.target.value };
+      if (task.id === id) {
+        return task;
+      }
+      console.log(task);
+      return task;
     });
-    console.log(modifyTask);
-    return setCurrentTodo(modifyTask);
+    return setTasks(modifyTask);
   };
   return (
     <section>
@@ -117,17 +119,18 @@ function App() {
                   <div className="card-body fw-bold">{task.text}</div>
                   {isEditing ? (
                     <ModifyTask
-                      handleModifySubmit={handleModifySubmit}
-                      currentTodo={task.text}
-                      modifyTodo={modifyTodo}
-                      value={currentTodo}
+                      key={task.id}
+                      id={task.id}
+                      onModifyTodo={() => modifyTodo(task.id)}
+                      value={task}
                     />
                   ) : (
                     <button
                       className="btn btn-sm btn-dark"
+                      id={task.id}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleModify();
+                        handleModify(task.id);
                       }}
                     >
                       <i className="bi bi-pencil-square"></i>
