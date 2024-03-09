@@ -2,7 +2,8 @@ import { AddTask } from "./components/form/AddTask";
 import { useEffect, useState } from "react";
 import ModifyTask from "./components/form/ModifyTask";
 import { Button, ButtonGroup } from "@nextui-org/button";
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
+import { Card, CardBody, CardFooter } from "@nextui-org/card";
+import ModalUpdate from "./components/form/ModalUpdate";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -57,7 +58,7 @@ function App() {
 
   const isFilterActive = (filter) => {
     return activeFilter === filter
-      ? "bg-gradient-to-tr from-pink-500 to-yellow-500"
+      ? "bg-gradient-to-l from-emerald-500 to-emerald-900"
       : "";
   };
 
@@ -135,7 +136,7 @@ function App() {
                 id={task.id}
                 className={`h-full p-2 ${
                   task.isDone
-                    ? "bg-gradient-to-r from-pink-500 to-yellow-500"
+                    ? "bg-gradient-to-tr from-emerald-500 to-emerald-900"
                     : null
                 }`}
                 onClick={(e) => handleClick(task.id, e)}
