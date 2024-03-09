@@ -19,6 +19,7 @@ export function AddTask({ onAddTask }) {
   return (
     <form onSubmit={handleSubmit}>
       <Input
+        radius="full"
         size="lg"
         type="text"
         value={list}

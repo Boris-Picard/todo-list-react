@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Input } from "@nextui-org/input";
 
 export default function ModifyTask({ onModifyTodo, id }) {
   const [modifyTodoValue, setModifyTodoValue] = useState("");
@@ -16,8 +17,9 @@ export default function ModifyTask({ onModifyTodo, id }) {
   };
   return (
     <form onSubmit={handleModifySubmit}>
-      <input
-        className="form-control"
+      <Input
+        radius="full"
+        size="lg"
         type="text"
         id={id}
         value={modifyTodoValue}
