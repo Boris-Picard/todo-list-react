@@ -1,7 +1,7 @@
 import { AddTask } from "./components/form/AddTask";
 import { useEffect, useState } from "react";
 import ModifyTask from "./components/form/ModifyTask";
-import { Button } from "@nextui-org/button";
+import { Button, ButtonGroup } from "@nextui-org/button";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -55,7 +55,9 @@ function App() {
   };
 
   const isFilterActive = (filter) => {
-    return activeFilter === filter ? "bg-success" : "";
+    return activeFilter === filter
+      ? "bg-gradient-to-tr from-pink-500 to-yellow-500"
+      : "";
   };
 
   const filterTask = (tasks) => {
@@ -91,96 +93,81 @@ function App() {
     return setTasks(modifyTask);
   };
   return (
-    <section className="bg-red-500">
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-12 text-center py-5">
-            <h1 className="text-white">Ma Todo List</h1>
-            <Button color="warning">Button</Button>
-          </div>
-          <div className="row justify-content-center">
-            <div className="col-6">
-              <AddTask onAddTask={addTask} />
-            </div>
-          </div>
-          <div className="row text-center mt-5">
-            <div className="col-12">
-              <button
-                className={`btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2 ${isFilterActive(
-                  "All"
-                )}`}
-                onClick={getValue}
-                value="All"
-              >
-                Toutes les tâches
-              </button>
-              <button
-                className={`btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2 ${isFilterActive(
-                  "Active"
-                )}`}
-                onClick={getValue}
-                value="Active"
-              >
-                Tâches actives(non complétées)
-              </button>
-              <button
-                className={`btn btn-sm btn-light mx-3 fw-bold rounded-3 p-2 ${isFilterActive(
-                  "Completed"
-                )}`}
-                onClick={getValue}
-                value="Completed"
-              >
-                Tâches complétées
-              </button>
-            </div>
-          </div>
-          <div className="row justify-content-center">
-            <div className="col-8 my-5">
-              {filterTask(tasks).map((task) => (
-                <div
-                  className={`hstack mb-3 card bg-light ${
-                    task.isDone ? "text-decoration-line-through" : null
-                  }`}
-                  id={task.id}
+    <section>
+      <div className="container-lg flex-auto">
+        <h1 className="text-center text-6xl">ReactTasks</h1>
+        <div className="flex justify-center my-12">
+          <AddTask onAddTask={addTask} />
+        </div>
+        <div className="flex justify-center">
+          <ButtonGroup>
+            <Button
+              className={`${isFilterActive("All")}`}
+              onClick={getValue}
+              value="All"
+            >
+              Toutes les tâches
+            </Button>
+            <Button
+              className={`${isFilterActive("Active")}`}
+              onClick={getValue}
+              value="Active"
+            >
+              Tâches actives(non complétées)
+            </Button>
+            <Button
+              className={`${isFilterActive("Completed")}`}
+              onClick={getValue}
+              value="Completed"
+            >
+              Tâches complétées
+            </Button>
+          </ButtonGroup>
+        </div>
+        <div className="flex my-12">
+          {filterTask(tasks).map((task) => (
+            <div
+              className={`${
+                task.isDone ? "text-decoration-line-through" : null
+              }`}
+              id={task.id}
+              key={task.id}
+              onClick={(e) => handleClick(task.id, e)}
+            >
+              <div className="">{task.text}</div>
+              {editingTaskId === task.id ? (
+                <ModifyTask
                   key={task.id}
-                  onClick={(e) => handleClick(task.id, e)}
+                  id={task.id}
+                  onModifyTodo={(newValue) => {
+                    modifyTodo(task.id, newValue);
+                    handFinishEditing();
+                  }}
+                />
+              ) : (
+                <button
+                  className=""
+                  id={task.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleModify(task.id);
+                  }}
                 >
-                  <div className="card-body fw-bold">{task.text}</div>
-                  {editingTaskId === task.id ? (
-                    <ModifyTask
-                      key={task.id}
-                      id={task.id}
-                      onModifyTodo={(newValue) => {
-                        modifyTodo(task.id, newValue);
-                        handFinishEditing();
-                      }}
-                    />
-                  ) : (
-                    <button
-                      className="btn btn-sm btn-dark"
-                      id={task.id}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleModify(task.id);
-                      }}
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </button>
-                  )}
-                  <button
-                    className="mx-2 btn btn-sm btn-danger"
-                    id={task.id}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteTasks(task.id);
-                    }}
-                  >
-                    <i className="bi bi-trash-fill mx-2"></i>
-                  </button>
-                </div>
-              ))}
+                  <i className="bi bi-pencil-square"></i>
+                </button>
+              )}
+              <button
+                className=""
+                id={task.id}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteTasks(task.id);
+                }}
+              >
+                <i className="bi bi-trash-fill mx-2"></i>
+              </button>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

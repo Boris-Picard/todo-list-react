@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Input } from "@nextui-org/input";
 
 export function AddTask({ onAddTask }) {
   const [list, setList] = useState("");
@@ -17,8 +18,8 @@ export function AddTask({ onAddTask }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        className="form-control"
+      <Input
+        size="lg"
         type="text"
         value={list}
         placeholder="Ajouter une tâche"
