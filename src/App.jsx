@@ -146,7 +146,7 @@ function App() {
                   {task.text}
                 </CardBody>
                 <CardFooter className="justify-between">
-                  {editingTaskId === task.id ? (
+                  {/* {editingTaskId === task.id ? (
                     <ModifyTask
                       key={task.id}
                       id={task.id}
@@ -174,7 +174,8 @@ function App() {
                         <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
                       </svg>
                     </button>
-                  )}
+                  )} */}
+                  <ModalUpdate />
                   <button
                     id={task.id}
                     onClick={(e) => {
