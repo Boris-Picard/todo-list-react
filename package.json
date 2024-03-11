@@ -1,13 +1,13 @@
 {
   "name": "todo-list-react",
   "private": true,
-  "homepage": "https://boris-picard.github.io/todo-list-react-gh-pages",
+  "homepage": "https://boris-picard.github.io/todo-list-react",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
