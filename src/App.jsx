@@ -104,17 +104,17 @@ function App() {
   };
   return (
     <section className={`min-h-screen ${darkMode ? "bg-black dark" : null} `}>
-      <div className="md:container md:mx-auto p-10">
-        <div className="grid grid-cols-3 items-center">
+      <div className="lg:container lg:mx-auto p-10">
+        <div className="grid md:grid-cols-3 items-center">
           <div></div>
           <h1
-            className={`col-span-1 text-center text-6xl font-bold ${
+            className={`col-span-1 text-center text-6xl md:order-1 order-2 font-bold ${
               darkMode ? "text-white" : "text-black"
             }`}
           >
             ReactTasks
           </h1>
-          <div className="col-span-1 flex justify-end">
+          <div className="col-span-1 flex justify-end  md:order-2 order-1">
             {darkMode ? (
               <Button onClick={handleDarkMode}>
                 <svg
@@ -129,7 +129,7 @@ function App() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+                    d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
                   />
                 </svg>
               </Button>
@@ -143,12 +143,12 @@ function App() {
                     strokeWidth={1.5}
                     stroke="currentColor"
                     className="w-6 h-6"
-                    color="white"
+                    color="dark"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                      d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
                     />
                   </svg>
                 </Button>
@@ -158,18 +158,21 @@ function App() {
         </div>
         <div className="flex justify-center">
           <div className="my-12 w-96">
-            <AddTask onAddTask={addTask} />
+            <AddTask
+              onAddTask={addTask}
+              className={`${darkMode ? "caret-white" : "caret-black"}`}
+            />
           </div>
         </div>
         <div className="flex justify-center">
-          <ButtonGroup>
+          <ButtonGroup className="w-full">
             <Button
               radius="full"
               className={` font-bold ${isFilterActive("All")}`}
               onClick={getValue}
               value="All"
             >
-              Toutes les tâches
+              All Tasks
             </Button>
             <Button
               radius="full"
@@ -177,7 +180,7 @@ function App() {
               onClick={getValue}
               value="Active"
             >
-              Tâches actives(non complétées)
+              Active
             </Button>
             <Button
               radius="full"
@@ -185,16 +188,16 @@ function App() {
               onClick={getValue}
               value="Completed"
             >
-              Tâches complétées
+              Done
             </Button>
           </ButtonGroup>
         </div>
-        <div className="grid grid-cols-4 gap-5 my-12" id="card">
+        <div className="grid lg:grid-cols-4 gap-5 my-12" id="card">
           {filterTask(tasks).map((task) => (
             <div key={task.id} onClick={(e) => handleClick(task.id, e)}>
               <Card
                 id={task.id}
-                className={`h-full p-2 ${
+                className={`p-2 ${
                   task.isDone
                     ? "bg-gradient-to-tr from-emerald-500 to-emerald-900 text-white"
                     : null
