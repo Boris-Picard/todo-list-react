@@ -10,9 +10,9 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 
-export default function ModalUpdate({ onModifyTodo, id }) {
+export default function ModalUpdate({ onModifyTodo, id, defaultValue }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [modifyTodoValue, setModifyTodoValue] = useState("");
+  const [modifyTodoValue, setModifyTodoValue] = useState(defaultValue);
 
   const modifyTodo = (e) => {
     setModifyTodoValue(e.target.value);
@@ -22,7 +22,6 @@ export default function ModalUpdate({ onModifyTodo, id }) {
     e.preventDefault();
     if (modifyTodoValue.trim()) {
       onModifyTodo(modifyTodoValue, id);
-      setModifyTodoValue("");
     }
   };
   return (
@@ -66,6 +65,7 @@ export default function ModalUpdate({ onModifyTodo, id }) {
                     color="warning"
                     id={id}
                     value={modifyTodoValue}
+                    defaultValue={modifyTodoValue}
                     onChange={modifyTodo}
                     autoFocus
                     variant="bordered"

@@ -8,6 +8,20 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [filteredTask, setFilteredTask] = useState("All");
   const [activeFilter, setActiveFilter] = useState("All");
+  const [darkMode, setDarkMode] = useState();
+
+  const handleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    localStorage.setItem("DarkMode", JSON.stringify(newDarkMode));
+  };
+
+  useEffect(() => {
+    const storedDarkMode = JSON.parse(localStorage.getItem("DarkMode"));
+    if (storedDarkMode !== null) {
+      setDarkMode(storedDarkMode);
+    }
+  }, []);
 
   useEffect(() => {
     const tasks = JSON.parse(localStorage.getItem("ToDo"));
@@ -62,7 +76,7 @@ function App() {
 
   const isFilterActive = (filter) => {
     return activeFilter === filter
-      ? "bg-gradient-to-l from-emerald-500 to-emerald-900"
+      ? "bg-gradient-to-l from-emerald-500 to-emerald-900 text-white"
       : "";
   };
 
@@ -89,11 +103,63 @@ function App() {
     return setTasks(modifyTask);
   };
   return (
-    <section>
-      <div className="md: container md:mx-auto p-10">
-        <h1 className="text-center text-6xl font-bold">ReactTasks</h1>
-        <div className="flex justify-center my-12">
-          <AddTask onAddTask={addTask} />
+    <section className={`min-h-screen ${darkMode ? "bg-black dark" : null} `}>
+      <div className="md:container md:mx-auto p-10">
+        <div className="grid grid-cols-3 items-center">
+          <div></div>
+          <h1
+            className={`col-span-1 text-center text-6xl font-bold ${
+              darkMode ? "text-white" : "text-black"
+            }`}
+          >
+            ReactTasks
+          </h1>
+          <div className="col-span-1 flex justify-end">
+            {darkMode ? (
+              <Button onClick={handleDarkMode}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                  color="white"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+                  />
+                </svg>
+              </Button>
+            ) : (
+              <div>
+                <Button onClick={handleDarkMode}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                    color="white"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                    />
+                  </svg>
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <div className="my-12 w-96">
+            <AddTask onAddTask={addTask} />
+          </div>
         </div>
         <div className="flex justify-center">
           <ButtonGroup>
@@ -130,13 +196,13 @@ function App() {
                 id={task.id}
                 className={`h-full p-2 ${
                   task.isDone
-                    ? "bg-gradient-to-tr from-emerald-500 to-emerald-900"
+                    ? "bg-gradient-to-tr from-emerald-500 to-emerald-900 text-white"
                     : null
                 }`}
                 onClick={(e) => handleClick(task.id, e)}
-                shadow="sm"
+                shadow="lg"
               >
-                <CardBody className="font-bold text-large">
+                <CardBody className="font-bold text-large h-48">
                   {task.text}
                 </CardBody>
                 <CardFooter className="justify-between">
@@ -144,8 +210,10 @@ function App() {
                     onModifyTodo={(newValue) => {
                       modifyTodo(task.id, newValue);
                     }}
+                    defaultValue={task.text}
                   />
-                  <button
+                  <Button
+                    color="danger"
                     id={task.id}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -156,7 +224,7 @@ function App() {
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      className="w-6 h-6 text-red-600"
+                      className="w-6 h-6 text-white"
                     >
                       <path
                         fillRule="evenodd"
@@ -164,7 +232,7 @@ function App() {
                         clipRule="evenodd"
                       />
                     </svg>
-                  </button>
+                  </Button>
                 </CardFooter>
               </Card>
             </div>
