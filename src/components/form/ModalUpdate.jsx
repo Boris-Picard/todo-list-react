@@ -6,14 +6,25 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-  Checkbox,
   Input,
-  Link,
 } from "@nextui-org/react";
+import { useState } from "react";
 
-export default function ModalUpdate() {
+export default function ModalUpdate({ onModifyTodo, id }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [modifyTodoValue, setModifyTodoValue] = useState("");
 
+  const modifyTodo = (e) => {
+    setModifyTodoValue(e.target.value);
+  };
+
+  const handleModifySubmit = (e) => {
+    e.preventDefault();
+    if (modifyTodoValue.trim()) {
+      onModifyTodo(modifyTodoValue, id);
+      setModifyTodoValue("");
+    }
+  };
   return (
     <>
       <Button onPress={onOpen} color="warning">
@@ -31,39 +42,28 @@ export default function ModalUpdate() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+              <ModalHeader className="flex text-center flex-col gap-1 text-red-600">
+                Modifier
+              </ModalHeader>
               <ModalBody>
-                <Input
-                  autoFocus
-                  label="Email"
-                  placeholder="Enter your email"
-                  variant="bordered"
-                />
-                <Input
-                  label="Password"
-                  placeholder="Enter your password"
-                  type="password"
-                  variant="bordered"
-                />
-                <div className="flex py-2 px-1 justify-between">
-                  <Checkbox
-                    classNames={{
-                      label: "text-small",
-                    }}
-                  >
-                    Remember me
-                  </Checkbox>
-                  <Link color="primary" href="#" size="sm">
-                    Forgot password?
-                  </Link>
-                </div>
+                <form onSubmit={handleModifySubmit}>
+                  <Input
+                    id={id}
+                    value={modifyTodoValue}
+                    onChange={modifyTodo}
+                    autoFocus
+                    label="Email"
+                    placeholder="Enter your email"
+                    variant="bordered"
+                  />
+                </form>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>
-                  Close
+                  Annuler
                 </Button>
                 <Button color="primary" onPress={onClose}>
-                  Sign in
+                  Modifier
                 </Button>
               </ModalFooter>
             </>
