@@ -1,6 +1,7 @@
 {
   "name": "todo-list-react",
   "private": true,
+  "homepage": "https://boris-picard.github.io/todo-list-react-gh-pages",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
