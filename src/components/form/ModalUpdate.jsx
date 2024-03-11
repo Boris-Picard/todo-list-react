@@ -38,34 +38,59 @@ export default function ModalUpdate({ onModifyTodo, id }) {
           <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
         </svg>
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+      <Modal
+        isDismissable={false}
+        size="2xl"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="top-center"
+        classNames={{
+          body: "py-6",
+          backdrop:
+            "bg-gradient-to-br from-gray-900 to-gray-600/40 backdrop-opacity-40",
+          base: "bg-gradient-to-br from-gray-900 to-gray-600",
+          header: "border-b-[1px] border-gray-600",
+          footer: "border-t-[1px] border-gray-600",
+        }}
+      >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex text-center flex-col gap-1 text-red-600">
+              <ModalHeader className="flex text-center flex-col gap-1 font-bold text-white">
                 Modifier
               </ModalHeader>
-              <ModalBody>
-                <form onSubmit={handleModifySubmit}>
+              <form onSubmit={handleModifySubmit}>
+                <ModalBody>
                   <Input
+                    className="focus:text-blue-600 caret-warning text-white"
+                    color="warning"
                     id={id}
                     value={modifyTodoValue}
                     onChange={modifyTodo}
                     autoFocus
-                    label="Email"
-                    placeholder="Enter your email"
                     variant="bordered"
                   />
-                </form>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
-                  Annuler
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Modifier
-                </Button>
-              </ModalFooter>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    className="font-bold"
+                    color="danger"
+                    variant="ghost"
+                    onPress={onClose}
+                  >
+                    Annuler
+                  </Button>
+                  <Button
+                    className="font-bold"
+                    type="submit"
+                    color="warning"
+                    onPress={onClose}
+                    variant="ghost"
+                  >
+                    Valider
+                  </Button>
+                </ModalFooter>
+              </form>
             </>
           )}
         </ModalContent>

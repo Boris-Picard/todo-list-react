@@ -1,15 +1,12 @@
 import { AddTask } from "./components/form/AddTask";
 import { useEffect, useState } from "react";
-import ModifyTask from "./components/form/ModifyTask";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { Card, CardBody, CardFooter } from "@nextui-org/card";
-// import ModalUpdate from "./components/form/ModalUpdate";
 import ModalUpdate from "./components/form/ModalUpdate";
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [filteredTask, setFilteredTask] = useState("All");
-  const [editingTaskId, setEditingTaskId] = useState(null);
   const [activeFilter, setActiveFilter] = useState("All");
 
   useEffect(() => {
@@ -37,7 +34,13 @@ function App() {
   };
 
   const handleClick = (id, e) => {
-    if (e.target.tagName.toLowerCase() === "input") {
+    if (
+      e.target.tagName.toLowerCase() === "input" ||
+      e.target.tagName.toLowerCase() === "header" ||
+      e.target.tagName.toLowerCase() === "footer" ||
+      e.target.id.toLowerCase() === ":rh:" ||
+      e.target.id.toLowerCase() === ":rc3:"
+    ) {
       return;
     }
     const updatedTasks = tasks.map((task) => {
@@ -74,16 +77,6 @@ function App() {
       default:
         break;
     }
-  };
-
-  const handleModify = (id) => {
-    {
-      setEditingTaskId(id);
-    }
-  };
-
-  const handFinishEditing = () => {
-    setEditingTaskId(null);
   };
 
   const modifyTodo = (id, newValue) => {
@@ -130,7 +123,7 @@ function App() {
             </Button>
           </ButtonGroup>
         </div>
-        <div className="grid grid-cols-4 gap-5 my-12">
+        <div className="grid grid-cols-4 gap-5 my-12" id="card">
           {filterTask(tasks).map((task) => (
             <div key={task.id} onClick={(e) => handleClick(task.id, e)}>
               <Card
@@ -150,7 +143,6 @@ function App() {
                   <ModalUpdate
                     onModifyTodo={(newValue) => {
                       modifyTodo(task.id, newValue);
-                      handFinishEditing();
                     }}
                   />
                   <button
